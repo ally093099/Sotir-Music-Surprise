@@ -27,6 +27,8 @@ function unlock(){
 document.getElementById("unlockBtn").addEventListener("click", unlock);
 input.addEventListener("keydown", e => { if(e.key === "Enter") unlock(); });
 
+playBtn.addEventListener("click", startMusic);
+
 async function startMusic(){
   try{
     music.currentTime = 0;
