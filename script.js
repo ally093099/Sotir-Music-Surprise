@@ -5,8 +5,6 @@ const input = document.getElementById("secretCode");
 const error = document.getElementById("errorMessage");
 const music = document.getElementById("bgMusic");
 const playBtn = document.getElementById("playBtn");
-const replayBtn = document.getElementById("replayBtn");
-const pauseBtn = document.getElementById("pauseBtn");
 const musicPlayer = document.getElementById("musicPlayer");
 const musicStatus = document.getElementById("musicStatus");
 
@@ -17,45 +15,45 @@ function unlock(){
     input.focus();
     return;
   }
+
   lockScreen.classList.remove("active");
   lockScreen.style.display = "none";
   mainContent.classList.remove("hidden");
-  window.scrollTo({top:0,behavior:"instant"});
+  window.scrollTo({top:0, behavior:"instant"});
   spawnHearts(12);
 }
 
 document.getElementById("unlockBtn").addEventListener("click", unlock);
-input.addEventListener("keydown", e => { if(e.key === "Enter") unlock(); });
 
-playBtn.addEventListener("click", startMusic);
+input.addEventListener("keydown", e => {
+  if(e.key === "Enter") unlock();
+});
 
 async function startMusic(){
   try{
-    music.currentTime = 0;
     await music.play();
 
     musicStatus.textContent = "Now playing ♡";
     playBtn.textContent = "♪ Music is playing";
     playBtn.disabled = true;
     musicPlayer.classList.remove("hidden");
-    pauseBtn.textContent = "Ⅱ";
     spawnHearts(18);
+
   }catch(e){
     console.error("Music playback error:", e);
-    musicStatus.textContent = "Music couldn't start. Please press play again.";
+    musicStatus.textContent = "Music couldn't start. Please use the audio player below.";
     playBtn.disabled = false;
   }
 }
+
 playBtn.addEventListener("click", startMusic);
-replayBtn.addEventListener("click", startMusic);
-pauseBtn.addEventListener("click", ()=>{
-  if(music.paused){ music.play(); pauseBtn.textContent="Ⅱ"; musicStatus.textContent="Now playing ♡"; }
-  else{ music.pause(); pauseBtn.textContent="▶"; musicStatus.textContent="Music paused"; }
-});
 
 const observer = new IntersectionObserver(entries=>{
-  entries.forEach(entry=>{ if(entry.isIntersecting) entry.target.classList.add("visible"); });
+  entries.forEach(entry=>{
+    if(entry.isIntersecting) entry.target.classList.add("visible");
+  });
 },{threshold:.14});
+
 document.querySelectorAll(".reveal").forEach(el=>observer.observe(el));
 
 function spawnHearts(count){
