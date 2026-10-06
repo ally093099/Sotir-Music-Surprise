@@ -29,11 +29,8 @@ input.addEventListener("keydown", e => { if(e.key === "Enter") unlock(); });
 
 async function startMusic(){
   try{
-    // Make sure the browser reloads the local MP3 source.
-    music.load();
     music.currentTime = 0;
-    const playPromise = music.play();
-    if (playPromise !== undefined) await playPromise;
+    await music.play();
 
     musicStatus.textContent = "Now playing ♡";
     playBtn.textContent = "♪ Music is playing";
@@ -43,7 +40,7 @@ async function startMusic(){
     spawnHearts(18);
   }catch(e){
     console.error("Music playback error:", e);
-    musicStatus.textContent = "Music couldn't start. Check that the MP3 is inside the music folder and named exactly my-love-mine-all-mine.mp3.";
+    musicStatus.textContent = "Music couldn't start. Please press play again.";
     playBtn.disabled = false;
   }
 }
